@@ -5,10 +5,10 @@ from pyprojroot import here
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(here()))
-from src.utils.datautils import convert_date_to_timestamp
-from src.utils import envutils
+from src.utils.DataUtils import convert_date_to_timestamp
+from src.utils import EnvUtils
 
-config = envutils.read_yaml(here("config/transform.yml"))
+config = EnvUtils.read_yaml(here("config/transform_clean.yml"))
 
 
 class Transform:
@@ -17,7 +17,7 @@ class Transform:
         df = pd.read_csv(here(config["transform_train"]["input"]))
         df_converted = convert_date_to_timestamp(df)
         # check the output and save the file
-        envutils.check_directory(here(config["transform_train"]["output"]))
+        EnvUtils.check_directory(here(config["transform_train"]["output"]))
         output_path = os.path.join(
             here(),
             config["transform_train"]["output"],
@@ -32,7 +32,7 @@ class Transform:
         df = pd.read_csv(here(config["transform_test"]["input"]))
         df_converted = convert_date_to_timestamp(df)
         # check the output and save the file
-        envutils.check_directory(here(config["transform_test"]["output"]))
+        EnvUtils.check_directory(here(config["transform_test"]["output"]))
         output = os.path.join(
             here(),
             config["transform_test"]["output"],
@@ -45,7 +45,7 @@ class Transform:
     def transform_wind():
         file_list = os.listdir(here(config["transform_wind"]["input"]))
         # check the output and save the file
-        envutils.check_directory(here(config["transform_wind"]["output"]))
+        EnvUtils.check_directory(here(config["transform_wind"]["output"]))
         print("Transforming wind files ...")
         for file in file_list:
             # read and convert the date column
