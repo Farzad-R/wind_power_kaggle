@@ -44,6 +44,12 @@ class WpEDS:
         self.data = self.data[["wp", "ws"]]
         return self.data
 
+    def check_if_all_rows_exist(self):
+        if np.diff(self.data.index).max() == np.diff(self.data.index).min():
+            print("There is no missing data. All samples are distributed equally.")
+        else:
+            print("Some rows are missing.")
+
     def decopmose_signal(
         self,
         column="wp",
