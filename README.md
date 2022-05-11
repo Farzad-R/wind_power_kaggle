@@ -4,7 +4,7 @@ Wind Power Forecasting of Global Energy Forecasting Competition 2012 - Wind Fore
 
 ## Description
 
-In this project I will try to prepare a full data analysis and prediction of wind power. The dataset was collected from a kaggle competition. Link below.
+In decided to create this project in my spare time. Here I will try to prepare a full data analysis and prediction of wind power data. The main goal is to provide with a proper way of addressing time series data rather than blindly unleashing various deep learning models. The dataset can be find in kaggle competition.
 
 ## Project initial structure
 
