@@ -48,7 +48,16 @@ class WpEDS:
         if np.diff(self.data.index).max() == np.diff(self.data.index).min():
             print("There is no missing data. All samples are distributed equally.")
         else:
-            print("Some rows are missing.")
+            df_tmp = self.data.reindex(
+                pd.date_range(
+                    start=self.data.index[0], end=self.data.index[-1], freq="1h"
+                )
+            )
+            num_missing_data = df_tmp.shape[0] - self.data.shape[0]
+            percent_missing_data = round((num_missing_data / df_tmp.shape[0] * 100), 3)
+            print(
+                f"{num_missing_data} number of rows, {percent_missing_data}% of the data, are missing in the dataset."
+            )
 
     def decopmose_signal(
         self,
