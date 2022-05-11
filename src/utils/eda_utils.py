@@ -7,22 +7,8 @@ from statsmodels.tsa.stattools import grangercausalitytests
 from statsmodels.tsa.vector_ar.vecm import coint_johansen
 from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.tsa.stattools import adfuller
-from statsmodels.stats.stattools import durbin_watson
-
-
-def convert_date_to_timestamp(df):
-    """
-    Args:
-    a dataframe with a column name date. THe column has seconds format.
-    Returns: a dataframe with index of timestamp in the form of yyy/mm/dd hh/mm/ss
-    """
-    df["timestamp"] = df["date"].apply(
-        lambda x: pd.to_datetime(str(x), format="%Y%m%d%H")
-    )
-    df = df.set_index("timestamp")
-    df = df.drop(columns=["date"])
-    df = df.sort_index()
-    return df
+from statsmodels.tsa.seasonal import seasonal_decompose
+from IPython.display import display
 
 
 class WpEDS:
@@ -57,6 +43,29 @@ class WpEDS:
         self.data = pd.merge(df_wp_tmp, df_wind_proc, left_index=True, right_index=True)
         self.data = self.data[["wp", "ws"]]
         return self.data
+
+    def decopmose_signal(
+        self,
+        column="wp",
+        start_range=0,
+        end_range=1000,
+        model="additive",
+        extrapolate_trend="freq",
+    ):
+        # Multiplicative Decomposition
+        result_add = seasonal_decompose(
+            self.data[[column]][start_range:end_range],
+            model=model,
+            extrapolate_trend=extrapolate_trend,
+        )
+        # Plot
+        result_add.plot().suptitle(f"{model} decompose", fontsize=22)
+        # plt.savefig("wind_seasonality.png", dpi=300)
+        plt.show()
+
+    def check_correlation(self):
+        correlation = self.data.corr()
+        display(correlation.style.background_gradient(cmap="coolwarm").set_precision(2))
 
     def check_missing_values(self):
         print("wp number of missing values:", self.df_wp.isna().sum())
@@ -97,9 +106,9 @@ class WpEDS:
     # https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
     def grangers_causation_matrix(self, maxlag=12, test="ssr_chi2test", verbose=False):
         """Check Granger Causality of all possible combinations of the Time series.
-        The rows are the response variable, columns are predictors. The values in the table 
-        are the P-Values. P-Values lesser than the significance level (0.05), implies 
-        the Null Hypothesis that the coefficients of the corresponding past values is 
+        The rows are the response variable, columns are predictors. The values in the table
+        are the P-Values. P-Values lesser than the significance level (0.05), implies
+        the Null Hypothesis that the coefficients of the corresponding past values is
         zero, that is, the X does not cause Y can be rejected.
 
         data      : pandas dataframe containing the time series variables
