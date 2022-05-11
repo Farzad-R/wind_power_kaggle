@@ -12,9 +12,9 @@ Current structure of the project:
 ```
 .
 ├── data                    # (added to .gitignore)
-│   ├── clean               # Clean data (auto-generate)
+│   ├── transformed               # Clean data (auto-generate)
 │   └── raw                 # The raw data
-├── config                  # config files for the main pipeline (TODO)
+├── config                  # config files for the main pipeline
 ├── src                     # Contains the codes of the main pipeline
 │   ├── utils               # Includes utils.py module
 │   ├── EDA
@@ -25,10 +25,10 @@ Current structure of the project:
 │   ├── debug.log               
 │   └── info.log
 │
-├── requirements.txt        # Required packages for the project (TODO)
+├── requirements.txt        # Required packages for the project
 ├── README.md
 ├── .gitignore
-├── setup.py				(TODO)
+├── setup.py				
 └── test					# contains unit-test for different parts of the project (TODO)
 ```
 ### Pipeline Order:
