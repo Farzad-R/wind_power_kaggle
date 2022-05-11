@@ -1,0 +1,15 @@
+
+transform_train:
+  input: data/raw/train/train.csv
+  output: data/transformed/train
+  output_filename: train.parquet
+
+transform_test:
+  input: data/raw/test/test.csv
+  output_filename: test.parquet
+  output: data/transformed/test
+
+transform_wind:
+  input: data/raw/windforecasts
+  output: data/transformed/windforecasts
+
